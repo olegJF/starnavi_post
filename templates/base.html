@@ -1,0 +1,90 @@
+{% url 'home' as home_url %}
+{% url 'signup' as signup_url %}
+{% url 'login' as login_url %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="http://getbootstrap.com/docs/4.1/examples/starter-template/starter-template.css"> -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.0.0/js/bootstrap-datetimepicker.min.js"></script>
+    <title>{% block title  %}  {% endblock %}</title>
+  </head>
+  <body>
+	<div class="container">
+	  <nav class="navbar navbar-expand-md navbar-dark  " style="background-color: #999;">
+		  <a class="navbar-brand" href="{%url 'home' %}">Blog</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav ml-auto">
+			  
+			  <li class="nav-item {% if request.path == home_url %}active{% endif %}">
+				<a class="nav-link" href="{%url 'home' %}">Posts</a>
+			  </li>
+			   <li class="nav-item {% if request.path == signup_url %}active{% endif %}">
+				<a class="nav-link " href="{%url 'signup' %}">SignUp</a>
+			  </li>
+			  <li class=" nav-item  {% if request.path == login_url %}active{% endif %}">
+                {% if user.is_authenticated %} 
+                    <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                {% endif %}
+            </li>
+			</ul>
+			<!-- <form class="form-inline my-2 my-lg-0">
+			  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+			  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form> -->
+		  </div>
+		</nav> 
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+			  {% if messages %}
+				{% for message in messages %}
+				  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+					<div class="alert alert-danger messages">
+					  <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+						Attention!  {{ message }}<br/>
+					  </span>
+					</div>
+				  {%else %} 
+					<div class="alert alert-success messages">
+					  <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+						{{ message }}<br/>
+					  </span>
+					</div>
+				  {% endif %}
+				{% endfor %}
+			  {% endif %}
+			</div>
+		</div>
+     </div>
+	 <div  class="container my-5">
+	{% block content  %} {% endblock %}
+    </div>
+	<footer class="footer fixed-bottom my-3 text-center">
+      <div class="container">
+		{% now "Y" as current_year %}
+		{%if current_year == '2018'%}
+			<span class="text-muted">Copyright {{ current_year }}</span>
+		{% else %}
+			<span class="text-muted">Copyright '2018' - {{ current_year }}</span>
+		{% endif %}
+      </div>
+    </footer>
+{% block script %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts {% endblock %}
+
+{% block content %}
+
+    <h2 class='text-center'><span>Posts</span></h2>
+   
+   <div class="row">
+		 {% if user.is_authenticated %}
+		<div class="col text-right">
+		<a href="{%url 'create' %}" >
+				<button type="button" class='btn btn-info btn-sm' >
+					Create new post
+				</button></a>
+		</div>
+		{% endif %}
+        <div class="col-md-11 mx-auto">
+			
+			
+			
+				{% for object in objects_list %}
+					<hr>
+						<p> {{ object.text }}<p>
+						<p class='text-center'> <small> Author: {{ object.user.username }}  || 
+						Likes: <a href="{% url 'like' object.pk%}">{{ object.liked.count }}</a>  || 
+						Unliks: <a href="{% url 'unlike' object.pk%}">{{ object.unliked.count }}</a> ||
+						Posted: {{ object.timestamp| date:"d/m/Y H:m"  }}  ||
+						Updated: {{ object.updated| date:"d/m/Y H:m" }}</small></p>
+						
+						
+				{% endfor %}
+				
+		</div>
+    </div>
+	
+	
+
+
+	{% endblock %}
+	
+	
+									
+	
