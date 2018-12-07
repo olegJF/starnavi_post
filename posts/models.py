@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
+
 def get_sentinel_user():
     return get_user_model().objects.get_or_create(username='deleted')[0]
     
@@ -38,7 +39,7 @@ class Post(models.Model):
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, 
                                    related_name='liked')
     unliked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, 
-                                   related_name='unliked')
+                                     related_name='unliked')
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     

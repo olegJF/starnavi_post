@@ -6,6 +6,7 @@ from .forms import SignUpForm, UserLoginForm
 
 User = get_user_model()
 
+
 class UserSignUpView(FormView):
     template_name = 'accounts/sign_up.html'
     form_class = SignUpForm
@@ -19,7 +20,8 @@ class UserSignUpView(FormView):
         new_user.set_password(password)
         new_user.save()
         return super(UserSignUpView, self).form_valid(form)
-        
+
+
 def login_view(request):
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
@@ -29,7 +31,7 @@ def login_view(request):
         login(request, user)
         return redirect('home')
     
-    return render(request, 'accounts/login.html', {"form": form,})
+    return render(request, 'accounts/login.html', {"form": form})
 
 
 def logout_view(request):
